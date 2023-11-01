@@ -3,7 +3,7 @@
 return [
     // Configure env variable with a comma-delimited string of hosts, defaults to localhost:9200.
     // It is expanded here to an array of host definitions.
-    'hosts' => explode(',', env('ELASTICSEARCH_HOSTS', 'localhost:9200')),
+    'hosts' => explode(',', env('ELASTICSEARCH_HOSTS', '127.0.0.1:9200')),
 
     // Use a factory callable to create the Elasticsearch client. Accepts the app instance as the only parameter.
     // 'clientFactory' => [
