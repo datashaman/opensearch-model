@@ -15,7 +15,7 @@ class OpenSearch extends GetOrSet
         $name = preg_replace('/([A-Z])/', ' \1', class_basename($class));
 
         $attributes = [
-            'client' => app('elasticsearch'),
+            'client' => app('opensearch'),
             'documentType' => isset($class::$documentType) ? $class::$documentType : str_slug($name),
             'indexName' => isset($class::$indexName) ? $class::$indexName : str_slug(str_plural($name)),
         ];
@@ -32,39 +32,39 @@ trait OpenSearchModel
 
     public static function resetOpenSearch()
     {
-        static::$elasticsearch = null;
+        static::$opensearch = null;
     }
 
-    public static function elasticsearch()
+    public static function opensearch()
     {
         $args = func_get_args();
 
         if (count($args) == 0) {
-            if (empty(static::$elasticsearch)) {
-                static::$elasticsearch = new OpenSearch(static::class);
+            if (empty(static::$opensearch)) {
+                static::$opensearch = new OpenSearch(static::class);
             }
 
-            return static::$elasticsearch;
+            return static::$opensearch;
         }
 
-        static::$elasticsearch = $args[0];
+        static::$opensearch = $args[0];
 
-        return static::$elasticsearch;
+        return static::$opensearch;
     }
 
     public static function search($query, $options = [])
     {
-        return static::elasticsearch()->search($query, $options);
+        return static::opensearch()->search($query, $options);
     }
 
     public static function mappings($options = [], callable $callable = null)
     {
-        return static::elasticsearch()->mappings($options, $callable);
+        return static::opensearch()->mappings($options, $callable);
     }
 
     public static function settings($settings = [], callable $callable = null)
     {
-        return static::elasticsearch()->settings($settings, $callable);
+        return static::opensearch()->settings($settings, $callable);
     }
 
     public static function indexName()
@@ -83,7 +83,7 @@ trait OpenSearchModel
     {
         $options = static::instanceOptions($primaryKey, $options);
 
-        return static::elasticsearch()->client()->get($options);
+        return static::opensearch()->client()->get($options);
     }
 
     public function indexDocument($options = [])
@@ -91,14 +91,14 @@ trait OpenSearchModel
         $options = static::instanceOptions($this->id, $options);
         $options['body'] = $this->toIndexedArray();
 
-        return static::elasticsearch()->client()->index($options);
+        return static::opensearch()->client()->index($options);
     }
 
     public function deleteDocument($options = [])
     {
         $options = static::instanceOptions($this->id, $options);
 
-        return static::elasticsearch()->client()->delete($options);
+        return static::opensearch()->client()->delete($options);
     }
 
     public function updateDocument($options = [])
@@ -113,7 +113,7 @@ trait OpenSearchModel
         $options = static::instanceOptions($this->id);
         $options['body'] = compact('doc');
 
-        return static::elasticsearch()->client()->update($options);
+        return static::opensearch()->client()->update($options);
     }
 
     public function updateDocumentAttributes($doc, $options = [])
@@ -121,16 +121,16 @@ trait OpenSearchModel
         $options = array_merge($options, static::instanceOptions($this->id));
         $options['body'] = compact('doc');
 
-        return static::elasticsearch()->client()->update($options);
+        return static::opensearch()->client()->update($options);
     }
 
     protected static function getOrSet($name, $args)
     {
         if (count($args) == 0) {
-            return static::elasticsearch()->$name();
+            return static::opensearch()->$name();
         }
 
-        return static::elasticsearch()->$name($args[0]);
+        return static::opensearch()->$name($args[0]);
     }
 
     public static function instanceOptions($id, $options = [])

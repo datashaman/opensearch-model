@@ -34,7 +34,7 @@ class Indexer implements SelfHandling, ShouldQueue
         switch ($this->operation) {
         case 'index':
             $record = $class::find($this->id);
-            $class::elasticsearch()->client()->index([
+            $class::opensearch()->client()->index([
                 'index' => $class::indexName(),
                 'type' => $class::documentType(),
                 'id' => $record->id,
@@ -43,7 +43,7 @@ class Indexer implements SelfHandling, ShouldQueue
             $record->indexDocument();
             break;
         case 'delete':
-            $class::elasticsearch()->client()->delete([
+            $class::opensearch()->client()->delete([
                 'index' => $class::indexName(),
                 'type' => $class::documentType(),
                 'id' => $this->id,

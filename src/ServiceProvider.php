@@ -18,13 +18,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        $configPath = __DIR__.'/../config/elasticsearch.php';
-        $this->mergeConfigFrom($configPath, 'elasticsearch');
+        $configPath = __DIR__.'/../config/opensearch.php';
+        $this->mergeConfigFrom($configPath, 'opensearch');
 
-        $this->app->singleton('elasticsearch', function ($app) {
+        $this->app->singleton('opensearch', function ($app) {
             $clientFactory = array_get(
                 $app['config'],
-                'elasticsearch.clientFactory',
+                'opensearch.clientFactory',
                 [
                     ClientFactory::class,
                     'make'
@@ -42,8 +42,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-        $configPath = __DIR__.'/../config/elasticsearch.php';
-        $this->publishes([$configPath => config_path('elasticsearch.php')], 'config');
+        $configPath = __DIR__.'/../config/opensearch.php';
+        $this->publishes([$configPath => config_path('opensearch.php')], 'config');
     }
 
     /**
@@ -53,6 +53,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function provides()
     {
-        return ['elasticsearch'];
+        return ['opensearch'];
     }
 }

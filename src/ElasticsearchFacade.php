@@ -13,6 +13,6 @@ class OpenSearchFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'elasticsearch';
+        return 'opensearch';
     }
 }

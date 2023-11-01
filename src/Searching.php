@@ -36,7 +36,7 @@ class SearchRequest
     public function execute()
     {
         $class = $this->class;
-        $result = $class::elasticsearch()->client()->search($this->definition);
+        $result = $class::opensearch()->client()->search($this->definition);
 
         return $result;
     }

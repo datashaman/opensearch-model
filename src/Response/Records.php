@@ -27,7 +27,7 @@ class Records implements ArrayAccess, Countable
     {
         $class = $this->response->search()->class;
 
-        return $class::elasticsearch()->records($this->response, $this->options, $this->callable);
+        return $class::opensearch()->records($this->response, $this->options, $this->callable);
     }
 
     public function __call($name, $args)

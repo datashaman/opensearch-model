@@ -51,7 +51,7 @@ class Response implements ArrayAccess, Countable
     {
         if (! $this->attributes->has('results')) {
             $resultFactory = array_get($this->options, 'resultFactory')
-                ?: config('elasticsearch.resultFactory');
+                ?: config('opensearch.resultFactory');
 
             if (empty($resultFactory)) {
                 $resultFactory = function ($hit) {
@@ -59,7 +59,7 @@ class Response implements ArrayAccess, Countable
                         $this->options,
                         'resultClass',
                         config(
-                            'elasticsearch.resultClass',
+                            'opensearch.resultClass',
                             Response\Result::class
                         )
                     );

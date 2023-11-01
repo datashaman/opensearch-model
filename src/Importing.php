@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Collection;
 
 /**
- * When used in a class, adds importing methods. Typically used by the elasticsearch proxy object.
+ * When used in a class, adds importing methods. Typically used by the opensearch proxy object.
  */
 trait Importing
 {
@@ -72,37 +72,37 @@ trait Importing
      *
      * Import all records into the index
      *
-     *     Article::elasticsearch()->import();
+     *     Article::opensearch()->import();
      *
      * Set the chunk size to 100
      *
-     *     Article::elasticsearch()->import(['chunkSize' => 100]);
+     *     Article::opensearch()->import(['chunkSize' => 100]);
      *
      * Process the response from OpenSearch
      *
-     *     Article::elasticsearch()->import([], function ($response) {
+     *     Article::opensearch()->import([], function ($response) {
      *       echo "Got " . $response->map(function ($i) { return $i['index']['error']; })->count() . " errors"
      *     });
      *
      * Delete and create the index with appropriate settings and mappings
      *
-     *     Article::elasticsearch()->import(['force' => true]);
+     *     Article::opensearch()->import(['force' => true]);
      *
      * Refresh the index after importing all chunks
      *
-     *     Article::elasticsearch()->import(['refresh' => true]);
+     *     Article::opensearch()->import(['refresh' => true]);
      *
      * Import the records into a different index/type than the default one
      *
-     *     Article::elasticsearch()->import(['index' => 'my-new-name', 'type' => 'my-other-type']);
+     *     Article::opensearch()->import(['index' => 'my-new-name', 'type' => 'my-other-type']);
      *
      * Pass an Eloquent scope to limit the imported records
      *
-     *     Article::elasticsearch()->import(['scope' => 'published']);
+     *     Article::opensearch()->import(['scope' => 'published']);
      *
      * Pass a query callable to alter the query used
      *
-     *     Article::elasticsearch()->import(['query' => function ($q) {
+     *     Article::opensearch()->import(['query' => function ($q) {
      *         $q->where('author_id', author_id);
      *     });
      *
@@ -118,7 +118,7 @@ trait Importing
      *         ];
      *     };
      *
-     *     Article::elasticsearch()->import(['transform' => $transform]);
+     *     Article::opensearch()->import(['transform' => $transform]);
      *
      * Update the chunk before importing it:
      *
@@ -135,12 +135,12 @@ trait Importing
      *        ...
      *      }
      *
-     *      Article::elasticsearch()->import(['preprocess' => 'enrich']);
+     *      Article::opensearch()->import(['preprocess' => 'enrich']);
      *
      * Return an array of error elements instead of the number of errors, eg.
      *          to try importing these records again
      *
-     *      Article::elasticsearch()->import(['return' => 'errors']);
+     *      Article::opensearch()->import(['return' => 'errors']);
      *
      * @param array $options Options used during the import process
      *

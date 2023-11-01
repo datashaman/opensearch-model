@@ -10,7 +10,7 @@ class ClientFactory
     {
         $config = array_get(
             $app['config'],
-            'elasticsearch',
+            'opensearch',
             [
                 'hosts' => '127.0.0.1:9200',
             ]
