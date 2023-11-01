@@ -1,14 +1,14 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests\Models;
+namespace Datashaman\OpenSearch\Model\Tests\Models;
 
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Thing extends Eloquent
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 
     public function category()
     {

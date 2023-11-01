@@ -1,9 +1,9 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\Elasticsearch;
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
+use Datashaman\OpenSearch\Model\OpenSearch;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
 use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +12,8 @@ use Schema;
 
 class ImportingTestModel extends Model
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 }
 
 class ImportingTest extends TestCase
@@ -41,7 +41,7 @@ class ImportingTest extends TestCase
             ],
         ]);
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
@@ -60,7 +60,7 @@ class ImportingTest extends TestCase
             ],
         ]);
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
@@ -81,7 +81,7 @@ class ImportingTest extends TestCase
             ],
         ]);
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
@@ -95,7 +95,7 @@ class ImportingTest extends TestCase
     {
         $error = ['index' => ['error' => 'FAILED']];
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => m::mock([
                 'bulk' => [
                     'items' => [
@@ -125,7 +125,7 @@ class ImportingTest extends TestCase
             ])
             ->mock();
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
@@ -139,7 +139,7 @@ class ImportingTest extends TestCase
 
     public function testWhenIndexDoesNotExist()
     {
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'indexExists' => false,
             'indexName' => 'importing-test-models',
             'documentType' => 'importing-test-model',
@@ -160,7 +160,7 @@ class ImportingTest extends TestCase
             ],
         ]);
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
@@ -190,7 +190,7 @@ EOF
             ])
             ->mock();
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'my-new-index',
@@ -220,7 +220,7 @@ EOF
             'bulk' => ['items' => []],
         ]);
 
-        $elastic = m::mock(Elasticsearch::class, [ImportingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'my-new-index',

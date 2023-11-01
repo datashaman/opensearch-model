@@ -1,11 +1,11 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\Response;
-use Datashaman\Elasticsearch\Model\Response\Records;
-use Datashaman\Elasticsearch\Model\Response\Result;
-use Datashaman\Elasticsearch\Model\SearchRequest;
+use Datashaman\OpenSearch\Model\Response;
+use Datashaman\OpenSearch\Model\Response\Records;
+use Datashaman\OpenSearch\Model\Response\Result;
+use Datashaman\OpenSearch\Model\SearchRequest;
 use Mockery as m;
 use stdClass;
 use TypeError;

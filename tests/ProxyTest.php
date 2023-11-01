@@ -1,20 +1,20 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
-use Elasticsearch\Client;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
+use OpenSearch\Client;
 
 class ProxyTestModel
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 }
 
 class ProxyTestModelWithProperties
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 
     public static $indexName = 'foo';
     public static $documentType = 'bar';
@@ -24,13 +24,13 @@ class ProxyTest extends TestCase
 {
     public function testGetClient()
     {
-        $this->assertInstanceOf(Client::class, ProxyTestModel::elasticsearch()->client());
+        $this->assertInstanceOf(Client::class, ProxyTestModel::opensearch()->client());
     }
 
     public function testSetClient()
     {
-        ProxyTestModel::elasticsearch()->client('foobar');
-        $this->assertSame('foobar', ProxyTestModel::elasticsearch()->client());
+        ProxyTestModel::opensearch()->client('foobar');
+        $this->assertSame('foobar', ProxyTestModel::opensearch()->client());
     }
 
     public function testGetDocumentType()

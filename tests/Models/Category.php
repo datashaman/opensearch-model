@@ -1,6 +1,6 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests\Models;
+namespace Datashaman\OpenSearch\Model\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 

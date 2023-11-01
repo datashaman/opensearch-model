@@ -1,9 +1,9 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\SearchRequest;
-use Elasticsearch\Client;
+use Datashaman\OpenSearch\Model\SearchRequest;
+use OpenSearch\Client;
 use Mockery as m;
 
 class SearchingModel
@@ -40,7 +40,7 @@ class SearchingTest extends TestCase
             ])
             ->mock();
 
-        Models\Thing::elasticsearch()->client($client);
+        Models\Thing::opensearch()->client($client);
 
         $searchOptions = ['default_operator' => 'AND'];
         $response = Models\Thing::search('foo', $searchOptions);
@@ -70,7 +70,7 @@ class SearchingTest extends TestCase
             ])
             ->mock();
 
-        Models\Thing::elasticsearch()->client($client);
+        Models\Thing::opensearch()->client($client);
 
         $s = new SearchRequest(Models\Thing::class, 'foo');
         $s->execute();
@@ -93,7 +93,7 @@ class SearchingTest extends TestCase
             ])
             ->mock();
 
-        Models\Thing::elasticsearch()->client($client);
+        Models\Thing::opensearch()->client($client);
 
         $object = new SearchingModel();
         $s = new SearchRequest(Models\Thing::class, $object);
@@ -119,7 +119,7 @@ class SearchingTest extends TestCase
             ])
             ->mock();
 
-        Models\Thing::elasticsearch()->client($client);
+        Models\Thing::opensearch()->client($client);
 
         $s = new SearchRequest(Models\Thing::class, $body);
         $s->execute();
@@ -143,7 +143,7 @@ class SearchingTest extends TestCase
             ])
             ->mock();
 
-        Models\Thing::elasticsearch()->client($client);
+        Models\Thing::opensearch()->client($client);
 
         $s = new SearchRequest(Models\Thing::class, 'foo', ['size' => 15]);
         $s->execute();

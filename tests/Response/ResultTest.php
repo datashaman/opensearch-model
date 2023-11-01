@@ -1,8 +1,8 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\Response\Result;
+use Datashaman\OpenSearch\Model\Response\Result;
 
 /**
  * @group passing

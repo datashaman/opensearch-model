@@ -1,11 +1,11 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
-use Datashaman\Elasticsearch\Model\SearchRequest;
-use Datashaman\Elasticsearch\Model\Response;
-use Datashaman\Elasticsearch\Model\Response\Records;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
+use Datashaman\OpenSearch\Model\SearchRequest;
+use Datashaman\OpenSearch\Model\Response;
+use Datashaman\OpenSearch\Model\Response\Records;
 use Illuminate\Support\Collection;
 use Mockery as m;
 
@@ -22,8 +22,8 @@ class RecordsTestCollection extends Collection
 
 class RecordsTestModel
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 
     protected static $indexName = 'foo';
     protected static $documentType = 'bar';

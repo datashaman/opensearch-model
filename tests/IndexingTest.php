@@ -1,11 +1,11 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\Elasticsearch;
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
-use Datashaman\Elasticsearch\Model\Mappings;
-use Elasticsearch\Common\Exceptions\Missing404Exception;
+use Datashaman\OpenSearch\Model\OpenSearch;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
+use Datashaman\OpenSearch\Model\Mappings;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Log;
@@ -16,23 +16,23 @@ use Storage;
 
 class IndexingTestModel extends Model
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
     public $id = 1;
 }
 
 class EloquentModel extends Model
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 }
 
 class EloquentModelTwo extends Model
 {
     protected $table = 'eloquent_model_twos';
 
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 
     public function toIndexedArray()
     {
@@ -50,9 +50,9 @@ class IndexingTest extends TestCase
         parent::setUp();
         $this->createThings();
 
-        IndexingTestModel::resetElasticsearch();
-        EloquentModel::resetElasticsearch();
-        EloquentModelTwo::resetElasticsearch();
+        IndexingTestModel::resetOpenSearch();
+        EloquentModel::resetOpenSearch();
+        EloquentModelTwo::resetOpenSearch();
 
         Schema::create('indexing_test_models', function (Blueprint $table) {
             $table->increments('id');
@@ -225,8 +225,8 @@ class IndexingTest extends TestCase
 
     public function testMappingsUpdateAndReturn()
     {
-        Models\Thing::elasticsearch()->mapping(['foo' => 'boo']);
-        Models\Thing::elasticsearch()->mapping(['bar' => 'bam']);
+        Models\Thing::opensearch()->mapping(['foo' => 'boo']);
+        Models\Thing::opensearch()->mapping(['bar' => 'bam']);
 
         $this->assertEquals([
             'thing' => [
@@ -275,23 +275,23 @@ class IndexingTest extends TestCase
             ])
             ->andReturn($create);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexExists' => false,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
-        IndexingTestModel::elasticsearch($elastic);
+        IndexingTestModel::opensearch($elastic);
         IndexingTestModel::settings(['foo' => 'bar']);
         IndexingTestModel::mappings(['bom' => 'dia']);
 
-        $this->assertSame($create, IndexingTestModel::elasticsearch()->createIndex());
+        $this->assertSame($create, IndexingTestModel::opensearch()->createIndex());
     }
 
     public function testCreateIndexThatExists()
     {
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'indexExists' => true,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
@@ -313,7 +313,7 @@ class IndexingTest extends TestCase
             ])
             ->andReturn($create);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
@@ -330,7 +330,7 @@ class IndexingTest extends TestCase
 
     public function testCreateIndexWithForceThatExists()
     {
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
@@ -354,7 +354,7 @@ class IndexingTest extends TestCase
             ])
             ->andReturn(true);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
@@ -374,7 +374,7 @@ class IndexingTest extends TestCase
             ])
             ->andReturn($delete);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
@@ -390,7 +390,7 @@ class IndexingTest extends TestCase
         $client->shouldReceive('indices->delete')
             ->andThrow(Missing404Exception::class, 'Index is missing');
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
         ])->shouldDeferMissing();
@@ -408,7 +408,7 @@ class IndexingTest extends TestCase
         $client->shouldReceive('indices->delete')
             ->andThrow(Missing404Exception::class, 'Index is missing');
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
         ])->shouldDeferMissing();
@@ -434,13 +434,13 @@ class IndexingTest extends TestCase
                 ],
             ]);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
-        IndexingTestModel::elasticsearch($elastic);
+        IndexingTestModel::opensearch($elastic);
 
         $instance = m::mock(IndexingTestModel::class, [
             'toArray' => [
@@ -487,13 +487,13 @@ class IndexingTest extends TestCase
                 ],
             ]);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
-        IndexingTestModel::elasticsearch($elastic);
+        IndexingTestModel::opensearch($elastic);
 
         $this->assertEquals($expected, IndexingTestModel::getDocument(1));
     }
@@ -524,13 +524,13 @@ class IndexingTest extends TestCase
                 '_version' => 2,
             ]);
 
-        $elastic = m::mock(Elasticsearch::class, [IndexingTestModel::class], [
+        $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
             'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
-        IndexingTestModel::elasticsearch($elastic);
+        IndexingTestModel::opensearch($elastic);
 
         $thing = new IndexingTestModel;
         $thing->title = 'Title';
@@ -542,13 +542,13 @@ class IndexingTest extends TestCase
 
     public function testUpdateUnchangedDocumentByReindexing()
     {
-        $elastic = m::mock(Elasticsearch::class, [EloquentModelTwo::class], [
+        $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'indexDocument' => '',
             'indexName' => 'eloquent-model-twos',
             'documentType' => 'eloquent-model-two',
         ]);
 
-        EloquentModelTwo::elasticsearch($elastic);
+        EloquentModelTwo::opensearch($elastic);
 
         $instance = m::mock(EloquentModelTwo::class, [
             'indexDocument' => '',
@@ -588,13 +588,13 @@ class IndexingTest extends TestCase
                 '_version' => 2,
             ]);
 
-        $elastic = m::mock(Elasticsearch::class, [EloquentModelTwo::class], [
+        $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'client' => $client,
             'indexName' => 'eloquent-model-twos',
             'documentType' => 'eloquent-model-two',
         ])->shouldDeferMissing();
 
-        EloquentModelTwo::elasticsearch($elastic);
+        EloquentModelTwo::opensearch($elastic);
 
         $instance = new EloquentModelTwo;
         $instance->title = 'A title';
@@ -629,13 +629,13 @@ class IndexingTest extends TestCase
                 '_version' => 2,
             ]);
 
-        $elastic = m::mock(Elasticsearch::class, [EloquentModelTwo::class], [
+        $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'client' => $client,
             'indexName' => 'eloquent-model-twos',
             'documentType' => 'eloquent-model-two',
         ])->shouldDeferMissing();
 
-        EloquentModelTwo::elasticsearch($elastic);
+        EloquentModelTwo::opensearch($elastic);
 
         $instance = new EloquentModelTwo;
         $instance->title = 'A title';
@@ -669,13 +669,13 @@ class IndexingTest extends TestCase
                 '_version' => 2,
             ]);
 
-        $elastic = m::mock(Elasticsearch::class, [EloquentModelTwo::class], [
+        $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'client' => $client,
             'indexName' => 'eloquent-model-twos',
             'documentType' => 'eloquent-model-two',
         ])->shouldDeferMissing();
 
-        EloquentModelTwo::elasticsearch($elastic);
+        EloquentModelTwo::opensearch($elastic);
 
         $instance = new EloquentModelTwo;
         $instance->title = 'A title';
@@ -700,7 +700,7 @@ class IndexingTest extends TestCase
             ])
             ->mock();
 
-        Models\Thing::elasticsearch()->client($client);
+        Models\Thing::opensearch()->client($client);
 
         $thing->deleteDocument();
     }

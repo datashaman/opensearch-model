@@ -1,25 +1,25 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
-use Datashaman\Elasticsearch\Model\Response;
-use Datashaman\Elasticsearch\Model\SearchRequest;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
+use Datashaman\OpenSearch\Model\Response;
+use Datashaman\OpenSearch\Model\SearchRequest;
 use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 
 class PaginationEloquentModel extends Model
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
     protected $perPage = 99;
 }
 
 
 class ModelClass
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 
     public static $indexName = 'foo';
     public static $documentType = 'bar';
@@ -54,7 +54,7 @@ class PaginationTest extends TestCase
 
     public function tearDown(): void
     {
-        ModelClass::resetElasticsearch();
+        ModelClass::resetOpenSearch();
         parent::tearDown();
     }
 
@@ -79,7 +79,7 @@ class PaginationTest extends TestCase
 
     public function testPageParameters()
     {
-        ModelClass::elasticsearch()->client(m::mock('Client', [
+        ModelClass::opensearch()->client(m::mock('Client', [
             'search' => null,
         ]));
 
@@ -123,7 +123,7 @@ class PaginationTest extends TestCase
                 'from' => 33,
             ]);
 
-        ModelClass::elasticsearch()->client($client);
+        ModelClass::opensearch()->client($client);
 
         $this->assertNull(array_get($this->response->search()->definition, 'size'));
         $this->assertNull(array_get($this->response->search()->definition, 'from'));
@@ -153,7 +153,7 @@ class PaginationTest extends TestCase
                 'from' => 18,
             ]);
 
-        ModelClass::elasticsearch()->client($client);
+        ModelClass::opensearch()->client($client);
 
         $this->assertNull(array_get($this->response->search()->definition, 'size'));
         $this->assertNull(array_get($this->response->search()->definition, 'from'));
@@ -183,7 +183,7 @@ class PaginationTest extends TestCase
                 'from' => 0,
             ]);
 
-        ModelClass::elasticsearch()->client($client);
+        ModelClass::opensearch()->client($client);
 
         $this->assertNull(array_get($this->response->search()->definition, 'size'));
         $this->assertNull(array_get($this->response->search()->definition, 'from'));
@@ -213,7 +213,7 @@ class PaginationTest extends TestCase
                 'from' => 10,
             ]);
 
-        ModelClass::elasticsearch()->client($client);
+        ModelClass::opensearch()->client($client);
 
         $this->response->paginate(['myPage' => 2, 'perPage' => 10, 'pageName' => 'myPage'])->toArray();
     }

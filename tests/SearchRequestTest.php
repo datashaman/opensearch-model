@@ -1,16 +1,16 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Elasticsearch\Client;
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
-use Datashaman\Elasticsearch\Model\SearchRequest;
+use OpenSearch\Client;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
+use Datashaman\OpenSearch\Model\SearchRequest;
 use Mockery as m;
 
 class SearchRequestTestModel
 {
-    use ElasticsearchModel;
-    protected static $elasticsearch;
+    use OpenSearchModel;
+    protected static $opensearch;
 
     public static $indexName = 'foo';
     public static $documentType = 'bar';
@@ -31,7 +31,7 @@ class SearchRequestTest extends TestCase
 {
     public function testSimpleQuery()
     {
-        $client = SearchRequestTestModel::elasticsearch()->client(
+        $client = SearchRequestTestModel::opensearch()->client(
             m::mock(Client::class)
                 ->shouldReceive('search')
                 ->with([
@@ -54,7 +54,7 @@ class SearchRequestTest extends TestCase
 
     public function testArray()
     {
-        $client = SearchRequestTestModel::elasticsearch()->client(
+        $client = SearchRequestTestModel::opensearch()->client(
             m::mock(Client::class)
                 ->shouldReceive('search')
                 ->with([
@@ -73,7 +73,7 @@ class SearchRequestTest extends TestCase
 
     public function testJsonString()
     {
-        $client = SearchRequestTestModel::elasticsearch()->client(
+        $client = SearchRequestTestModel::opensearch()->client(
             m::mock(Client::class)
                 ->shouldReceive('search')
                 ->with([
@@ -90,7 +90,7 @@ class SearchRequestTest extends TestCase
 
     public function testToArray()
     {
-        $client = SearchRequestTestModel::elasticsearch()->client(
+        $client = SearchRequestTestModel::opensearch()->client(
             m::mock(Client::class)
                 ->shouldReceive('search')
                 ->with([
@@ -110,7 +110,7 @@ class SearchRequestTest extends TestCase
 
     public function testPassOptionsToClient()
     {
-        $client = SearchRequestTestModel::elasticsearch()->client(
+        $client = SearchRequestTestModel::opensearch()->client(
             m::mock(Client::class)
                 ->shouldReceive('search')
                 ->with([

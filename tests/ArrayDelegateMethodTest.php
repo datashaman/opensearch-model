@@ -1,9 +1,9 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
 use ArrayAccess;
-use Datashaman\Elasticsearch\Model\ArrayDelegateMethod;
+use Datashaman\OpenSearch\Model\ArrayDelegateMethod;
 
 class ArrayDelegateMethodModel implements ArrayAccess
 {

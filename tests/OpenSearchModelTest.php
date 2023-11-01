@@ -1,13 +1,13 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
-use Datashaman\Elasticsearch\Model\Elasticsearch;
-use Datashaman\Elasticsearch\Model\Tests\TestCase;
-use Datashaman\Elasticsearch\Model\Tests\Models\Thing;
+use Datashaman\OpenSearch\Model\OpenSearch;
+use Datashaman\OpenSearch\Model\Tests\TestCase;
+use Datashaman\OpenSearch\Model\Tests\Models\Thing;
 use Mockery as m;
 
-class ElasticsearchModelTest extends TestCase
+class OpenSearchModelTest extends TestCase
 {
     public function setUp(): void
     {
@@ -17,7 +17,7 @@ class ElasticsearchModelTest extends TestCase
 
     public function testRecordsWith()
     {
-        $elastic = m::mock(Elasticsearch::class, [Thing::class], [
+        $elastic = m::mock(OpenSearch::class, [Thing::class], [
             'client' => m::mock([
                 'search' => [
                     'hits' => [
@@ -36,7 +36,7 @@ class ElasticsearchModelTest extends TestCase
             'documentType' => 'thing',
         ])->shouldDeferMissing();
 
-        Thing::elasticsearch($elastic);
+        Thing::opensearch($elastic);
 
         $response = Thing::search('*');
         $records = $response->records(['with' => ['category']]);
@@ -46,7 +46,7 @@ class ElasticsearchModelTest extends TestCase
 
     public function testReorderRecordsBasedOnHits()
     {
-        $elastic = m::mock(Elasticsearch::class, [Thing::class], [
+        $elastic = m::mock(OpenSearch::class, [Thing::class], [
             'client' => m::mock([
                 'search' => [
                     'hits' => [
@@ -71,7 +71,7 @@ class ElasticsearchModelTest extends TestCase
             'documentType' => 'thing',
         ])->shouldDeferMissing();
 
-        Thing::elasticsearch($elastic);
+        Thing::opensearch($elastic);
 
         $thing = Thing::create([
             'title' => 'Thing Thing',
@@ -93,7 +93,7 @@ class ElasticsearchModelTest extends TestCase
 
     public function testNotReorderWhenOrderingIsPresent()
     {
-        $elastic = m::mock(Elasticsearch::class, [Thing::class], [
+        $elastic = m::mock(OpenSearch::class, [Thing::class], [
             'client' => m::mock([
                 'search' => [
                     'hits' => [
@@ -118,7 +118,7 @@ class ElasticsearchModelTest extends TestCase
             'documentType' => 'thing',
         ])->shouldDeferMissing();
 
-        Thing::elasticsearch($elastic);
+        Thing::opensearch($elastic);
 
         $thing = Thing::create([
             'title' => 'Thing Thing',
@@ -141,7 +141,7 @@ class ElasticsearchModelTest extends TestCase
 
     public function testLimitToASpecificScope()
     {
-        Thing::elasticsearch()->findInChunks(['scope' => 'online'], function ($chunk) {
+        Thing::opensearch()->findInChunks(['scope' => 'online'], function ($chunk) {
             $this->assertCount(1, $chunk);
             $this->assertEquals('online', $chunk[0]->status);
         });
@@ -149,7 +149,7 @@ class ElasticsearchModelTest extends TestCase
 
     public function testLimitToASpecificQuery()
     {
-        Thing::elasticsearch()->findInChunks(['query' => function ($q) {
+        Thing::opensearch()->findInChunks(['query' => function ($q) {
             $q->whereStatus('online');
         }], function ($chunk) {
             $this->assertCount(1, $chunk);
@@ -159,7 +159,7 @@ class ElasticsearchModelTest extends TestCase
 
     public function testPreprocessIfProvided()
     {
-        Thing::elasticsearch()->findInChunks(['preprocess' => 'enrich'], function ($chunk) {
+        Thing::opensearch()->findInChunks(['preprocess' => 'enrich'], function ($chunk) {
             $chunk->each(function ($thing) {
                 $this->assertEquals('!', substr($thing->title, -1));
             });

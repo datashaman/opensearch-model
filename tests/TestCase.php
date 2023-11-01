@@ -1,6 +1,6 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Tests;
+namespace Datashaman\OpenSearch\Model\Tests;
 
 use DB;
 use Eloquent;
@@ -15,7 +15,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            'Datashaman\Elasticsearch\Model\ServiceProvider',
+            'Datashaman\OpenSearch\Model\ServiceProvider',
         ];
     }
 
@@ -27,7 +27,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
-        $app['config']->set('elasticsearch', [
+        $app['config']->set('opensearch', [
             'hosts' => [
                 'localhost:9200',
             ],
@@ -38,7 +38,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
         Eloquent::unguard();
-        Models\Thing::resetElasticsearch();
+        Models\Thing::resetOpenSearch();
     }
 
     protected function createThings()
