@@ -24,7 +24,7 @@ Configure the service provider in `config/app.php`:
 
 ```
 ...
-Datashaman\Elasticsearch\Model\ServiceProvider::class,
+Datashaman\OpenSearch\Model\ServiceProvider::class,
 ...
 ```
 
@@ -32,13 +32,13 @@ Configure the alias in `config.app.php`:
 
 ```
 ...
-'Elasticsearch' => Datashaman\Elasticsearch\Model\ElasticsearchFacade::class,
+'OpenSearch' => Datashaman\OpenSearch\Model\OpenSearchFacade::class,
 ...
 ```
 
 Copy base config into your applicatin:
 
-    php artisan vendor:publish --tag=config --provider='Datashaman\Elasticsearch\Model\ServiceProvider'
+    php artisan vendor:publish --tag=config --provider='Datashaman\OpenSearch\Model\ServiceProvider'
 
 Edit `config/opensearch.php` to your liking, setting `OPENSEARCH_HOSTS` (comma-delimited definition of host:port)  in `.env` should cover most use cases.
 
@@ -63,19 +63,19 @@ Article::create([ 'title' => 'Swift green frogs' ]);
 
 ## Setup
 
-To add the Elasticsearch integration for this model, use the `Datashaman\Elasticsearch\Model\ElasticsearchModel` trait in your class. You must also add a protected static `$opensearch` property for storage:
+To add the OpenSearch integration for this model, use the `Datashaman\OpenSearch\Model\OpenSearchModel` trait in your class. You must also add a protected static `$opensearch` property for storage:
 
 ```php
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
 
 class Article extends Eloquent
 {
-    use ElasticsearchModel;
+    use OpenSearchModel;
     protected static $opensearch;
 }
 ```
 
-This will extend the model with functionality related to Elasticsearch.
+This will extend the model with functionality related to OpenSearch.
 
 ### Proxy
 
@@ -83,16 +83,16 @@ The package contains a big amount of class and instance methods to provide all t
 
 To prevent polluting your model namespace, *nearly* all functionality is accessed via static method `Article::opensearch()`.
 
-### Elasticsearch client
+### OpenSearch client
 
-The module will setup a [client](https://github.com/elasticsearch/elasticsearch-ruby/tree/master/elasticsearch), connected to `localhost:9200`, by default. You can access and use it like any other `Elasticsearch::Client`:
+The module will setup a [client](https://github.com/elasticsearch/elasticsearch-ruby/tree/master/elasticsearch), connected to `localhost:9200`, by default. You can access and use it like any other `OpenSearch::Client`:
 
 ```php
 Article::opensearch()->client()->cluster()->health();
 => [ "cluster_name" => "opensearch", "status" => "yellow", ... ]
 ```
 
-To use a client with a different configuration, set a client for the model using `Elasticsearch\ClientBuilder`:
+To use a client with a different configuration, set a client for the model using `OpenSearch\ClientBuilder`:
 
 ```php
 Article::opensearch()->client(ClientBuilder::fromConfig([ 'hosts' => [ 'api.server.org' ] ]));
@@ -133,7 +133,7 @@ $response[0]->title;
 
 #### Search results
 
-The returned `response` object is a rich wrapper around the JSON returned from Elasticsearch, providing access to response metadata and the actual results (*hits*).
+The returned `response` object is a rich wrapper around the JSON returned from OpenSearch, providing access to response metadata and the actual results (*hits*).
 
 The `response` object delegates to an internal `LengthAwarePaginator`. You can get a `Collection` via the delegate `getCollection` method, althought the paginator also delegates mmethods to its `Collection` so either of these work:
 
@@ -156,7 +156,7 @@ $response->filter(function ($r) { return preg_match('/^Q/', $r->title); })
 
 As you can see in the examples above, use the `Collection::all()` method to get a regular array.
 
-Each Elasticsearch *hit* is wrapped in the `Result` class.
+Each OpenSearch *hit* is wrapped in the `Result` class.
 
 `Result` has a dynamic getter:
 
@@ -172,7 +172,7 @@ It also has a `toArray` method which returns the hit as an array.
 
 #### Search results as database records
 
-Instead of returning documents from Elasticsearch, the records method will return a collection of model instances, fetched from the primary database, ordered by score:
+Instead of returning documents from OpenSearch, the records method will return a collection of model instances, fetched from the primary database, ordered by score:
 
 ```php
 $response->records()
@@ -185,7 +185,7 @@ The returned object is a `Collection` of model instances returned by your databa
 
 The records method returns the real instances of your model, which is useful when you want to access your model methods - at the expense of slowing down your application, of course.
 
-In most cases, working with results coming from Elasticsearch is sufficient, and much faster.
+In most cases, working with results coming from OpenSearch is sufficient, and much faster.
 
 When you want to access both the database `records` and search `results`, use the `eachWithHit` (or `mapWithHit`) iterator:
 
@@ -267,7 +267,7 @@ $results->render();
 
 The rendered HTML was tidied up slightly for readability.
 
-#### The Elasticsearch DSL
+#### The OpenSearch DSL
 
 **TODO** Integrate this with a query builder.
 
@@ -343,7 +343,7 @@ Article::documentType('post');
 
 ## Updating the Documents in the Index
 
-Usually, we need to update the Elasticsearch index when records in the database are created, updated or deleted; use the index_document, update_document and delete_document methods, respectively:
+Usually, we need to update the OpenSearch index when records in the database are created, updated or deleted; use the index_document, update_document and delete_document methods, respectively:
 
 ```php
 Article::first()->indexDocument();
@@ -353,15 +353,15 @@ Note that this implementation differs from the Ruby one, where the instance has 
 
 ### Automatic callbacks
 
-You can auomatically update the index whenever the record changes, by using the `Datashaman\\Elasticsearch\\Model\\Callbacks` trait in your model:
+You can auomatically update the index whenever the record changes, by using the `Datashaman\\OpenSearch\\Model\\Callbacks` trait in your model:
 
 ```php
-use Datashaman\Elasticsearch\Model\ElasticsearchModel;
-use Datashaman\Elasticsearch\Model\Callbacks;
+use Datashaman\OpenSearch\Model\OpenSearchModel;
+use Datashaman\OpenSearch\Model\Callbacks;
 
 class Article
 {
-    use ElasticsearchModel;
+    use OpenSearchModel;
     use Callbacks;
 }
 
@@ -460,7 +460,7 @@ If you want to customize the serialization, just implement the `toIndexedArray` 
 ```php
 class Article
 {
-    use ElasticsearchModel;
+    use OpenSearchModel;
 
     public function toIndexedArray($options = null)
     {
@@ -475,7 +475,7 @@ The re-defined method will be used in the indexing methods, such as `indexDocume
 
 Original design from [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) which is:
 
-* Copyright (c) 2014 Elasticsearch <http://www.elasticsearch.org>
+* Copyright (c) 2014 OpenSearch <http://www.elasticsearch.org>
 * Licensed with Apache 2.0 license (detail in LICENSE.txt)
 
 Changes include a rewrite of the core logic in PHP, as well as slight enhancements to accomodate Laravel and Eloquent.
