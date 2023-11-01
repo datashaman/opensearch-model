@@ -1,6 +1,6 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Jobs;
+namespace Datashaman\OpenSearch\Model\Jobs;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Response;
+namespace Datashaman\OpenSearch\Model\Response;
 
 use Eloquent;
 
@@ -38,7 +38,7 @@ trait Pagination
             return $instance->getPerPage();
         }
 
-        /* Same as Elasticsearch's default */
+        /* Same as OpenSearch's default */
         return 10;
     }
 

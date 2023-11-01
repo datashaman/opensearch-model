@@ -1,10 +1,10 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model;
+namespace Datashaman\OpenSearch\Model;
 
 use Illuminate\Support\Facades\Facade;
 
-class ElasticsearchFacade extends Facade
+class OpenSearchFacade extends Facade
 {
     /**
      * Get the registered name of the component.

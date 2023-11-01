@@ -4,7 +4,7 @@
  * Provides support for easily and efficiently importing large amounts of
  * records from the including class into the index.
  */
-namespace Datashaman\Elasticsearch\Model;
+namespace Datashaman\OpenSearch\Model;
 
 use Exception;
 use Illuminate\Support\Collection;
@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 trait Importing
 {
     /**
-     * Convert a chunk (collection) of models into an Elasticsearch bulk API body.
+     * Convert a chunk (collection) of models into an OpenSearch bulk API body.
      *
      * @param  \Illuminate\Support\Collection $chunk     Collection of models to be indexed.
      * @param  callable                       $transform Function which converts models to simplified bulk API format.
@@ -78,7 +78,7 @@ trait Importing
      *
      *     Article::elasticsearch()->import(['chunkSize' => 100]);
      *
-     * Process the response from Elasticsearch
+     * Process the response from OpenSearch
      *
      *     Article::elasticsearch()->import([], function ($response) {
      *       echo "Got " . $response->map(function ($i) { return $i['index']['error']; })->count() . " errors"

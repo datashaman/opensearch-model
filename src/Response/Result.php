@@ -1,6 +1,6 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Response;
+namespace Datashaman\OpenSearch\Model\Response;
 
 use Illuminate\Contracts\Support\Arrayable;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model;
+namespace Datashaman\OpenSearch\Model;
 
-class Elasticsearch extends GetOrSet
+class OpenSearch extends GetOrSet
 {
     use Importing;
     use Indexing;
@@ -26,11 +26,11 @@ class Elasticsearch extends GetOrSet
     }
 }
 
-trait ElasticsearchModel
+trait OpenSearchModel
 {
     use Serializing;
 
-    public static function resetElasticsearch()
+    public static function resetOpenSearch()
     {
         static::$elasticsearch = null;
     }
@@ -41,7 +41,7 @@ trait ElasticsearchModel
 
         if (count($args) == 0) {
             if (empty(static::$elasticsearch)) {
-                static::$elasticsearch = new Elasticsearch(static::class);
+                static::$elasticsearch = new OpenSearch(static::class);
             }
 
             return static::$elasticsearch;

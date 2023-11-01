@@ -1,8 +1,8 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model;
+namespace Datashaman\OpenSearch\Model;
 
-use Elasticsearch\ClientBuilder;
+use OpenSearch\ClientBuilder;
 
 class ClientFactory
 {

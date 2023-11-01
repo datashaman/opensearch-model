@@ -1,6 +1,6 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model;
+namespace Datashaman\OpenSearch\Model;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {

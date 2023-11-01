@@ -1,10 +1,10 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model\Response;
+namespace Datashaman\OpenSearch\Model\Response;
 
 use ArrayAccess;
 use Countable;
-use Datashaman\Elasticsearch\Model\ArrayDelegateMethod;
+use Datashaman\OpenSearch\Model\ArrayDelegateMethod;
 use Illuminate\Support\Collection;
 
 class Records implements ArrayAccess, Countable

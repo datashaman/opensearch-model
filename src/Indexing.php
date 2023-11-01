@@ -1,8 +1,8 @@
 <?php
 
-namespace Datashaman\Elasticsearch\Model;
+namespace Datashaman\OpenSearch\Model;
 
-use Elasticsearch\Common\Exceptions\Missing404Exception;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Log;
 use Storage;
