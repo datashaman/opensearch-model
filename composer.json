@@ -1,0 +1,52 @@
+{
+    "name": "datashaman/opensearch-model",
+    "description": "Laravel/Eloquent integration with OpenSearch",
+    "keywords": [
+        "opensearch",
+        "eloquent",
+        "facets",
+        "laravel",
+        "search"
+    ],
+    "license": "Apache-2.0",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Marlin Forbes",
+            "email": "marlinf@datashaman.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "illuminate/support": ">=9"
+    },
+    "require-dev": {
+        "mockery/mockery": "*",
+        "orchestra/testbench": ">=3.4",
+        "phpunit/phpunit": "*",
+        "symfony/yaml": "*",
+        "ext-sqlite3": "*"
+    },
+    "suggest": {
+        "symfony/yaml": "To load settings from a YAML file"
+    },
+    "autoload": {
+        "psr-4": {
+            "Datashaman\\OpenSearch\\Model\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Datashaman\\OpenSearch\\Model\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-wip": "vendor/bin/phpunit --group wip",
+        "watch-test": "bash watch-test.sh",
+        "docs": "phpdoc -d ./src -t ./docs/api"
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}

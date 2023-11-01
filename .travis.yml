@@ -1,0 +1,44 @@
+language: php
+
+php:
+- 7.1
+- 7.2
+- 7.3
+- 7.4
+
+sudo: false
+
+git:
+  depth: 3
+
+env:
+- LARAVEL="5.8" TESTBENCH="3.8" ELASTICSEARCH="5" COMPOSER_FLAGS="--prefer-lowest"
+- LARAVEL="5.8" TESTBENCH="3.8" ELASTICSEARCH="5" COMPOSER_FLAGS="--prefer-stable"
+- LARAVEL="5.8" TESTBENCH="3.8" ELASTICSEARCH="6" COMPOSER_FLAGS="--prefer-lowest"
+- LARAVEL="5.8" TESTBENCH="3.8" ELASTICSEARCH="6" COMPOSER_FLAGS="--prefer-stable"
+- LARAVEL="5.8" TESTBENCH="3.8" ELASTICSEARCH="7" COMPOSER_FLAGS="--prefer-lowest"
+- LARAVEL="5.8" TESTBENCH="3.8" ELASTICSEARCH="7" COMPOSER_FLAGS="--prefer-stable"
+- LARAVEL="6" TESTBENCH="4" ELASTICSEARCH="5" COMPOSER_FLAGS="--prefer-lowest"
+- LARAVEL="6" TESTBENCH="4" ELASTICSEARCH="5" COMPOSER_FLAGS="--prefer-stable"
+- LARAVEL="6" TESTBENCH="4" ELASTICSEARCH="6" COMPOSER_FLAGS="--prefer-lowest"
+- LARAVEL="6" TESTBENCH="4" ELASTICSEARCH="6" COMPOSER_FLAGS="--prefer-stable"
+- LARAVEL="6" TESTBENCH="4" ELASTICSEARCH="7" COMPOSER_FLAGS="--prefer-lowest"
+- LARAVEL="6" TESTBENCH="4" ELASTICSEARCH="7" COMPOSER_FLAGS="--prefer-stable"
+
+matrix:
+  fast_finish: true
+
+before_install:
+- phpenv config-rm xdebug.ini
+- composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+- travis_retry composer global require hirak/prestissimo
+
+install:
+- travis_retry composer require elasticsearch/elasticsearch:^${ELASTICSEARCH} illuminate/support:^${LARAVEL} orchestra/testbench:^${TESTBENCH} --dev --prefer-dist --no-interaction --no-suggest
+
+script: composer run test
+
+cache:
+  directories:
+  - "$HOME/.composer/cache/files"
+  - "$HOME/.cache/composer/files"
