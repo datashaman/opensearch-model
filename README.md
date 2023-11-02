@@ -160,8 +160,8 @@ Each OpenSearch *hit* is wrapped in the `Result` class.
 
 `Result` has a dynamic getter:
 
-* *index*, *type*, *id*, *score* and *source* are pulled from the top-level of the *hit*.
-  e.g. *index* is *hit\[_index\]*, *type* is *hit\[_type\]*, etc
+* *index*, *id*, *score* and *source* are pulled from the top-level of the *hit*.
+  e.g. *index* is *hit\[_index\]* etc
 * if not one of the above, it looks for an existing item in the top-level hit.
   e.g. *_version* is *hit\[_version\]* (if defined)
 * if not one of the above, it looks for an existing item in *hit\[_source\]* \(the document\).
@@ -325,7 +325,7 @@ Article::opensearch()->createIndex(['force' => true]);
 Article::opensearch()->refreshIndex();
 ```
 
-By default, index name and document type will be inferred from your class name, you can set it explicitely, however:
+By default, index name will be inferred from your class name, you can set it explicitely, however:
 
 ```php
 class Article {
@@ -426,7 +426,6 @@ class Indexer implements SelfHandling, ShouldQueue
             $record = $class::find($this->id);
             $class::opensearch()->client()->index([
                 'index' => $class::indexName(),
-                'type' => $class::documentType(),
                 'id' => $record->id,
                 'body' => $record->toIndexedArray(),
             ]);
@@ -435,7 +434,6 @@ class Indexer implements SelfHandling, ShouldQueue
         case 'delete':
             $class::opensearch()->client()->delete([
                 'index' => $class::indexName(),
-                'type' => $class::documentType(),
                 'id' => $this->id,
             ]);
             break;

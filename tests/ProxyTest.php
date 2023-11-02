@@ -17,7 +17,6 @@ class ProxyTestModelWithProperties
     protected static $opensearch;
 
     public static $indexName = 'foo';
-    public static $documentType = 'bar';
 }
 
 class ProxyTest extends TestCase

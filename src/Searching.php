@@ -14,7 +14,6 @@ class SearchRequest
         $this->options = $options;
 
         $index = array_get($options, 'index', $class::indexName());
-        $type = array_get($options, 'type', $class::documentType());
 
         if (is_object($query) && method_exists($query, 'toArray')) {
             $body = $query->toArray();
@@ -30,7 +29,7 @@ class SearchRequest
             ];
         }
 
-        $this->definition = array_merge(compact('index', 'type', 'body'), $options);
+        $this->definition = array_merge(compact('index', 'body'), $options);
     }
 
     public function execute()

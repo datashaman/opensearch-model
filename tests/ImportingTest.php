@@ -45,7 +45,6 @@ class ImportingTest extends TestCase
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $elastic->import();
@@ -64,7 +63,6 @@ class ImportingTest extends TestCase
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $elastic->import(['refresh' => true]);
@@ -85,7 +83,6 @@ class ImportingTest extends TestCase
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $this->assertEquals(1, $elastic->import());
@@ -106,7 +103,6 @@ class ImportingTest extends TestCase
             ]),
             'indexExists' => true,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $this->assertEquals([$error], $elastic->import(['return' => 'errors']));
@@ -129,7 +125,6 @@ class ImportingTest extends TestCase
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $elastic->import([], function ($response) {
@@ -142,7 +137,6 @@ class ImportingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [ImportingTestModel::class], [
             'indexExists' => false,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $this->expectException(Exception::class);
@@ -164,7 +158,6 @@ class ImportingTest extends TestCase
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'importing-test-models',
-            'documentType' => 'importing-test-model',
         ])->shouldDeferMissing();
 
         $elastic->import(['force' => true, 'foo' => 'bar']);
@@ -178,7 +171,6 @@ class ImportingTest extends TestCase
             ->shouldReceive('bulk')
             ->with([
                 'index' => 'my-new-index',
-                'type' => 'my-other-type',
                 'body' => <<<EOF
 {"index":{"_id":1}}
 $encodedThing
@@ -194,12 +186,10 @@ EOF
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'my-new-index',
-            'documentType' => 'my-other-type',
         ])->shouldDeferMissing();
 
         $elastic->import([
             'index' => 'my-new-index',
-            'type' => 'my-other-type',
         ]);
     }
 
@@ -224,10 +214,9 @@ EOF
             'client' => $client,
             'indexExists' => true,
             'indexName' => 'my-new-index',
-            'documentType' => 'my-other-type',
             'transform' => $transform,
         ])->shouldDeferMissing();
 
-        $elastic->import(['index' => 'foo', 'type' => 'bar']);
+        $elastic->import(['index' => 'foo']);
     }
 }

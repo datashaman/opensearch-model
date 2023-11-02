@@ -279,7 +279,6 @@ class IndexingTest extends TestCase
             'client' => $client,
             'indexExists' => false,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         IndexingTestModel::opensearch($elastic);
@@ -294,7 +293,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'indexExists' => true,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         $this->assertFalse($elastic->createIndex());
@@ -316,7 +314,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         $elastic->shouldReceive('deleteIndex')
@@ -332,7 +329,6 @@ class IndexingTest extends TestCase
     {
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         $elastic->shouldReceive('deleteIndex')
@@ -357,7 +353,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         $this->assertTrue($elastic->indexExists());
@@ -377,7 +372,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         $this->assertSame($delete, $elastic->deleteIndex());
@@ -426,7 +420,6 @@ class IndexingTest extends TestCase
         $client->shouldReceive('index')
             ->with([
                 'index' => 'indexing-test-models',
-                'type' => 'indexing-test-model',
                 'id' => 1,
                 'body' => [
                     'id' => 1,
@@ -437,7 +430,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         IndexingTestModel::opensearch($elastic);
@@ -457,7 +449,6 @@ class IndexingTest extends TestCase
     {
         $expected = [
             '_index' => 'indexing-test-models',
-            '_type' => 'indexing-test-model',
             '_id' => 1,
             '_version' => 1,
             'found' => true,
@@ -472,12 +463,10 @@ class IndexingTest extends TestCase
         $client->shouldReceive('get')
             ->with([
                 'index' => 'indexing-test-models',
-                'type' => 'indexing-test-model',
                 'id' => 1,
             ])
             ->andReturn([
                 '_index' => 'indexing-test-models',
-                '_type' => 'indexing-test-model',
                 '_id' => 1,
                 '_version' => 1,
                 'found' => true,
@@ -490,7 +479,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         IndexingTestModel::opensearch($elastic);
@@ -509,7 +497,6 @@ class IndexingTest extends TestCase
         $client->shouldReceive('update')
             ->with([
                 'index' => 'indexing-test-models',
-                'type' => 'indexing-test-model',
                 'id' => 2,
                 'body' => [
                     'doc' => [
@@ -519,7 +506,6 @@ class IndexingTest extends TestCase
             ])
             ->andReturn([
                 '_index' => 'indexing-test-models',
-                '_type' => 'indexing-test-model',
                 '_id' => 2,
                 '_version' => 2,
             ]);
@@ -527,7 +513,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [IndexingTestModel::class], [
             'client' => $client,
             'indexName' => 'indexing-test-models',
-            'documentType' => 'indexing-test-model',
         ])->shouldDeferMissing();
 
         IndexingTestModel::opensearch($elastic);
@@ -545,7 +530,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'indexDocument' => '',
             'indexName' => 'eloquent-model-twos',
-            'documentType' => 'eloquent-model-two',
         ]);
 
         EloquentModelTwo::opensearch($elastic);
@@ -573,7 +557,6 @@ class IndexingTest extends TestCase
         $client->shouldReceive('update')
             ->with([
                 'index' => 'eloquent-model-twos',
-                'type' => 'eloquent-model-two',
                 'id' => 1,
                 'body' => [
                     'doc' => [
@@ -583,7 +566,6 @@ class IndexingTest extends TestCase
             ])
             ->andReturn([
                 '_index' => 'eloquent-model-twos',
-                '_type' => 'eloquent-model-two',
                 '_id' => 1,
                 '_version' => 2,
             ]);
@@ -591,7 +573,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'client' => $client,
             'indexName' => 'eloquent-model-twos',
-            'documentType' => 'eloquent-model-two',
         ])->shouldDeferMissing();
 
         EloquentModelTwo::opensearch($elastic);
@@ -613,7 +594,6 @@ class IndexingTest extends TestCase
         $client->shouldReceive('update')
             ->with([
                 'index' => 'eloquent-model-twos',
-                'type' => 'eloquent-model-two',
                 'id' => 1,
                 'body' => [
                     'doc' => [
@@ -624,7 +604,6 @@ class IndexingTest extends TestCase
             ])
             ->andReturn([
                 '_index' => 'eloquent-model-twos',
-                '_type' => 'eloquent-model-two',
                 '_id' => 1,
                 '_version' => 2,
             ]);
@@ -632,7 +611,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'client' => $client,
             'indexName' => 'eloquent-model-twos',
-            'documentType' => 'eloquent-model-two',
         ])->shouldDeferMissing();
 
         EloquentModelTwo::opensearch($elastic);
@@ -654,7 +632,6 @@ class IndexingTest extends TestCase
         $client->shouldReceive('update')
             ->with([
                 'index' => 'eloquent-model-twos',
-                'type' => 'eloquent-model-two',
                 'id' => 1,
                 'body' => [
                     'doc' => [
@@ -664,7 +641,6 @@ class IndexingTest extends TestCase
             ])
             ->andReturn([
                 '_index' => 'eloquent-model-twos',
-                '_type' => 'eloquent-model-two',
                 '_id' => 1,
                 '_version' => 2,
             ]);
@@ -672,7 +648,6 @@ class IndexingTest extends TestCase
         $elastic = m::mock(OpenSearch::class, [EloquentModelTwo::class], [
             'client' => $client,
             'indexName' => 'eloquent-model-twos',
-            'documentType' => 'eloquent-model-two',
         ])->shouldDeferMissing();
 
         EloquentModelTwo::opensearch($elastic);
@@ -695,7 +670,6 @@ class IndexingTest extends TestCase
             ->shouldReceive('delete')
             ->with([
                 'index' => 'things',
-                'type' => 'thing',
                 'id' => 1,
             ])
             ->mock();

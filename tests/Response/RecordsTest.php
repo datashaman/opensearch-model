@@ -26,7 +26,6 @@ class RecordsTestModel
     protected static $opensearch;
 
     protected static $indexName = 'foo';
-    protected static $documentType = 'bar';
 
     public static function whereIn($name, $ids)
     {

@@ -137,7 +137,6 @@ trait OpenSearchModel
     {
         $options = array_merge([
             'index' => static::indexName(),
-            'type' => static::documentType(),
         ], $options);
 
         if (! empty($id)) {

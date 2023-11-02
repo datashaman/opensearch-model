@@ -19,9 +19,8 @@ class Mappings implements Arrayable
         'nested',
     ];
 
-    public function __construct($type, $options = [])
+    public function __construct($options = [])
     {
-        $this->type = $type;
         $this->options = $options;
         $this->mapping = [];
     }
@@ -53,9 +52,8 @@ class Mappings implements Arrayable
         }
 
         $properties = $this->mapping;
-        $type = array_merge($this->options, compact('properties'));
 
-        return [$this->type => $type];
+        return array_merge($this->options, compact('properties'));
     }
 
     public function mergeOptions($options)

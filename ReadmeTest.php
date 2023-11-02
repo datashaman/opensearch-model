@@ -203,9 +203,6 @@ class ReadmeTest extends TestCase
         Article::elasticsearch()->refreshIndex();
 
         Article::indexName('articles-production');
-        Article::documentType('post');
-
         $this->assertEquals('articles-production', Article::indexName());
-        $this->assertEquals('post', Article::documentType());
     }
 }

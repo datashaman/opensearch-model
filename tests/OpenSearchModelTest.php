@@ -33,7 +33,6 @@ class OpenSearchModelTest extends TestCase
                 ],
             ]),
             'indexName' => 'things',
-            'documentType' => 'thing',
         ])->shouldDeferMissing();
 
         Thing::opensearch($elastic);
@@ -68,7 +67,6 @@ class OpenSearchModelTest extends TestCase
                 ],
             ]),
             'indexName' => 'things',
-            'documentType' => 'thing',
         ])->shouldDeferMissing();
 
         Thing::opensearch($elastic);
@@ -115,7 +113,6 @@ class OpenSearchModelTest extends TestCase
                 ],
             ]),
             'indexName' => 'things',
-            'documentType' => 'thing',
         ])->shouldDeferMissing();
 
         Thing::opensearch($elastic);

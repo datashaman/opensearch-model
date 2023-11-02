@@ -36,7 +36,6 @@ class Indexer implements SelfHandling, ShouldQueue
             $record = $class::find($this->id);
             $class::opensearch()->client()->index([
                 'index' => $class::indexName(),
-                'type' => $class::documentType(),
                 'id' => $record->id,
                 'body' => $record->toIndexedArray(),
             ]);
@@ -45,7 +44,6 @@ class Indexer implements SelfHandling, ShouldQueue
         case 'delete':
             $class::opensearch()->client()->delete([
                 'index' => $class::indexName(),
-                'type' => $class::documentType(),
                 'id' => $this->id,
             ]);
             break;

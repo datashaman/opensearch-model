@@ -49,7 +49,7 @@ trait Importing
      *
      *     [action => ['_id' => id, 'data' => data]]
      *
-     * Where action is typically *index*, but could also be *create*, *delete* or *update*. There is no need to specify *index* or *type* in the array, those are specified in the main request. The *delete* action does not require a *data* item.
+     * Where action is typically *index*, but could also be *create*, *delete* or *update*. There is no need to specify *index* in the array, those are specified in the main request. The *delete* action does not require a *data* item.
      *
      * @return callable
      */
@@ -92,9 +92,9 @@ trait Importing
      *
      *     Article::opensearch()->import(['refresh' => true]);
      *
-     * Import the records into a different index/type than the default one
+     * Import the records into a different index than the default one
      *
-     *     Article::opensearch()->import(['index' => 'my-new-name', 'type' => 'my-other-type']);
+     *     Article::opensearch()->import(['index' => 'my-new-name']);
      *
      * Pass an Eloquent scope to limit the imported records
      *
@@ -148,7 +148,6 @@ trait Importing
      * * integer  *chunkSize* Size of the chunk when importing. Default *1000*.
      * * boolean  *refresh*   Refresh the index after importing. Default *false*.
      * * string   *index*     Use a custom index name. Defaults to *indexName* of the model class.
-     * * string   *type*      Use a custom document type. Defaults to *documentType* of the model class.
      * * callable *transform* Custom transformation of records into bulk API format. Defaults this classes' *transform* method.
      * * string   *return*    Return *count* or *errors* from the import method. Default *count*.
      *
@@ -162,7 +161,6 @@ trait Importing
 
         $refresh = array_pull($options, 'refresh', false);
         $targetIndex = array_pull($options, 'index', $this->indexName());
-        $targetType = array_pull($options, 'type', $this->documentType());
         $transform = array_pull($options, 'transform', [$this, 'transform']);
         $returnValue = array_pull($options, 'return', 'count');
 
@@ -179,7 +177,6 @@ trait Importing
         $this->findInChunks($options, function ($chunk) use ($targetIndex, $targetType, $transform, $callable, &$errors) {
             $args = [
                 'index' => $targetIndex,
-                'type' => $targetType,
                 'body' => $this->chunkToBulk($chunk, call_user_func($transform)),
             ];
 
