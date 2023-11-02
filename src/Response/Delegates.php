@@ -51,6 +51,9 @@ trait Delegates
 
     public function total()
     {
-        return array_get($this->response(), 'hits.total');
+        $response = $this->response();
+
+        return array_get($response, 'hits.total.value')
+            ?? array_get($response, 'hits.total');
     }
 }
