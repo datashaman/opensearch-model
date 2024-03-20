@@ -103,7 +103,7 @@ trait Indexing
     public function mappings($options = [], callable $callable = null)
     {
         if (empty($this->mapping)) {
-            $this->mapping = new Mappings($this->documentType());
+            $this->mapping = new Mappings();
         }
 
         if (! empty($options)) {

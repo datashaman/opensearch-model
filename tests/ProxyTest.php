@@ -32,17 +32,6 @@ class ProxyTest extends TestCase
         $this->assertSame('foobar', ProxyTestModel::opensearch()->client());
     }
 
-    public function testGetDocumentType()
-    {
-        $this->assertEquals('proxy-test-model', ProxyTestModel::documentType());
-    }
-
-    public function testSetDocumentType()
-    {
-        ProxyTestModel::documentType('thingybob');
-        $this->assertEquals('thingybob', ProxyTestModel::documentType());
-    }
-
     public function testGetIndexName()
     {
         $this->assertEquals('proxy-test-models', ProxyTestModel::indexName());
@@ -57,10 +46,5 @@ class ProxyTest extends TestCase
     public function testGetIndexNameWithProperty()
     {
         $this->assertEquals('foo', ProxyTestModelWithProperties::indexName());
-    }
-
-    public function testGetDocumentTypeWithProperty()
-    {
-        $this->assertEquals('bar', ProxyTestModelWithProperties::documentType());
     }
 }

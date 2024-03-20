@@ -330,7 +330,6 @@ By default, index name will be inferred from your class name, you can set it exp
 ```php
 class Article {
     protected static $indexName = 'article-production';
-    protected static $documentType = 'post';
 }
 ```
 
@@ -338,7 +337,6 @@ Alternately, you can set them using the following static methods:
 
 ```php
 Article::indexName('article-production');
-Article::documentType('post');
 ```
 
 ## Updating the Documents in the Index
