@@ -16,7 +16,6 @@ class OpenSearch extends GetOrSet
 
         $attributes = [
             'client' => app('opensearch'),
-            'documentType' => isset($class::$documentType) ? $class::$documentType : str_slug($name),
             'indexName' => isset($class::$indexName) ? $class::$indexName : str_slug(str_plural($name)),
         ];
 
@@ -28,7 +27,7 @@ class OpenSearch extends GetOrSet
 
 trait OpenSearchModel
 {
-    use Serializing;
+
 
     public static function resetOpenSearch()
     {
@@ -74,10 +73,7 @@ trait OpenSearchModel
         return $result;
     }
 
-    public static function documentType()
-    {
-        return static::getOrSet('documentType', func_get_args());
-    }
+
 
     public static function getDocument($primaryKey, $options = [])
     {

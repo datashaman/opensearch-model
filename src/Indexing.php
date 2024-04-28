@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class Mappings implements Arrayable
 {
-    protected $type;
     protected $options;
     protected $mapping;
 
@@ -64,10 +63,9 @@ class Mappings implements Arrayable
 
 trait Indexing
 {
-    use Serializing;
+
 
     protected $settings;
-    protected $mapping;
 
     public function refreshIndex($options = [])
     {
@@ -100,29 +98,9 @@ trait Indexing
         }
     }
 
-    public function mappings($options = [], callable $callable = null)
-    {
-        if (empty($this->mapping)) {
-            $this->mapping = new Mappings($this->documentType());
-        }
 
-        if (! empty($options)) {
-            $this->mapping->mergeOptions($options);
-        }
 
-        if (! is_callable($callable)) {
-            return $this->mapping;
-        }
 
-        call_user_func($callable, $this->mapping);
-
-        return $this->mapping;
-    }
-
-    public function mapping($options = [], callable $callable = null)
-    {
-        return $this->mappings($options, $callable);
-    }
 
     public function settings($settings = null, callable $callable = null)
     {
@@ -171,11 +149,6 @@ trait Indexing
         $settings = $this->settings()->toArray();
         if (! empty($settings)) {
             $body['settings'] = $settings;
-        }
-
-        $mappings = $this->mappings()->toArray();
-        if (! empty($mappings)) {
-            $body['mappings'] = $mappings;
         }
 
         return $this->client()->indices()->create(compact('index', 'body'));
