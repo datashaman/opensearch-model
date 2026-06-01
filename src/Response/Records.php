@@ -16,7 +16,7 @@ class Records implements ArrayAccess, Countable
     protected $options;
     protected $callable;
 
-    public function __construct($response, $options = [], callable $callable = null)
+    public function __construct($response, $options = [], ?callable $callable = null)
     {
         $this->response = $response;
         $this->options = $options;

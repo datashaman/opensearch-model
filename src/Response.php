@@ -124,7 +124,7 @@ class Response implements ArrayAccess, Countable
      * @param  callable $callable Called with the query to modify it on-the-fly.
      * @return Response\Records
      */
-    public function records($options = [], callable $callable = null)
+    public function records($options = [], ?callable $callable = null)
     {
         return new Response\Records($this, $options, $callable);
     }
