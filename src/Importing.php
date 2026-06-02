@@ -155,7 +155,7 @@ trait Importing
      *
      * @return mixed Returns count of errors by default, can be configured to return array of errors. Use *return* in options to configure this.
      */
-    public function import($options = [], callable $callable = null)
+    public function import($options = [], ?callable $callable = null)
     {
         $errors = [];
 

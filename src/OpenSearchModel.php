@@ -57,12 +57,12 @@ trait OpenSearchModel
         return static::opensearch()->search($query, $options);
     }
 
-    public static function mappings($options = [], callable $callable = null)
+    public static function mappings($options = [], ?callable $callable = null)
     {
         return static::opensearch()->mappings($options, $callable);
     }
 
-    public static function settings($settings = [], callable $callable = null)
+    public static function settings($settings = [], ?callable $callable = null)
     {
         return static::opensearch()->settings($settings, $callable);
     }
@@ -146,7 +146,7 @@ trait OpenSearchModel
         return $options;
     }
 
-    public function records($response, $options = [], callable $callable = null)
+    public function records($response, $options = [], ?callable $callable = null)
     {
         $ids = $response->ids();
 
@@ -176,7 +176,7 @@ trait OpenSearchModel
         return $builder->get();
     }
 
-    public function findInChunks($options = [], callable $callable = null)
+    public function findInChunks($options = [], ?callable $callable = null)
     {
         $query = array_pull($options, 'query');
         $scope = array_pull($options, 'scope');

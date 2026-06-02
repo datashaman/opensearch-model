@@ -25,7 +25,7 @@ class Mappings implements Arrayable
         $this->mapping = [];
     }
 
-    public function indexes($name, $options = [], callable $callable = null)
+    public function indexes($name, $options = [], ?callable $callable = null)
     {
         array_set($this->mapping, $name, $options);
 
@@ -100,7 +100,7 @@ trait Indexing
         }
     }
 
-    public function mappings($options = [], callable $callable = null)
+    public function mappings($options = [], ?callable $callable = null)
     {
         if (empty($this->mapping)) {
             $this->mapping = new Mappings($this->documentType());
@@ -119,12 +119,12 @@ trait Indexing
         return $this->mapping;
     }
 
-    public function mapping($options = [], callable $callable = null)
+    public function mapping($options = [], ?callable $callable = null)
     {
         return $this->mappings($options, $callable);
     }
 
-    public function settings($settings = null, callable $callable = null)
+    public function settings($settings = null, ?callable $callable = null)
     {
         if (! isset($this->settings)) {
             $this->settings = collect();
